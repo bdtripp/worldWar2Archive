@@ -76,6 +76,7 @@ html body div#root div div div.survey {
   background-color: #F2F2F2;
 }
 html body div#root div div div.survey h3 {
+  color: #333333;
   font-size: 1.7em;
   margin-bottom: 10px;
 }
