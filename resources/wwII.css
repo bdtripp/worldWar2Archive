@@ -80,12 +80,6 @@ html body div#root div div div.survey h3 {
   font-size: 1.7em;
   margin-bottom: 10px;
 }
-html body div#root div div div.survey div.nwidget {
-  height: 100%;
-}
-html body div#root div div div.survey div.nwidget div.panel {
-  height: 100%;
-}
 html body div#root div div div.survey div.questionnaire_list div.questionnaire {
   text-align: center;
 }
