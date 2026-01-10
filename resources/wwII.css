@@ -108,6 +108,8 @@ html body footer h2 {
 @media screen and (min-width: 700px) {
   html body div#root div div.survey_list {
     grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto 30px auto;
+    width: 80%;
   }
   html body div#root div div#image_carousel {
     text-align: center;
