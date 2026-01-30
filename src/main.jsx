@@ -12,7 +12,7 @@ $(
     var questions;
     var answers;
     
-    if (window.location.pathname.includes("surveys.html")) {
+    if (window.location.pathname === "/") {
       $.when(
         $.get("data/surveys.csv", data => {
           surveys = csv.toObjects(data);
