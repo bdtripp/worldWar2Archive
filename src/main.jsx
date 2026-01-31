@@ -15,26 +15,31 @@ $(
     var questions;
     var answers;
 
+    const parseFile = (url) => {
+      return new Promise((resolve, reject) => {
+        Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: (results) => resolve(results.data),
+          error: (err => reject(err))
+        });
+      });
+    } 
+
     if (window.location.pathname === "/") {
-      Papa.parse("/data/surveys.csv", {
-        download: true,
-        header: true,
-        complete: (results) => {
-          surveys = results.data;
-          console.log("Surveys: ", surveys);
-          showSurveys();
-        }
-      });
-      Papa.parse("/data/questionnaires.csv", {
-        download: true,
-        header: true,
-        complete: (results) => {
-          questionnaires = results.data;
-          console.log("Questionnaires: ", questionnaires);
-          showSurveys();
-        }
-      });
-    }
+      Promise.all([
+        parseFile("/data/surveys.csv"),
+        parseFile("/data/questionnaires.csv")
+      ]).then(([surveys, questionnaires]) => {    
+        root.render(
+          <div>
+            <h2>World War II Soldier Surveys</h2>
+            <SurveyList surveys={surveys} questionnaires={questionnaires} />
+          </div>
+        )}).catch((err) => {
+          root.render(<h1>Error loading data: {err.message}</h1>);
+        });
+      }
     
     if (window.location.pathname.includes("responses.html")) {
       $.when(
