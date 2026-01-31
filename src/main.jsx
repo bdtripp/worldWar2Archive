@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import SurveyList from './SurveyList.jsx';
 import ImageCarousel from './ImageCarousel.jsx';
 import * as csv from 'jquery-csv';
+import Papa from 'papaparse';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 $(
   function() {
@@ -11,18 +14,26 @@ $(
     var responses;
     var questions;
     var answers;
-    
+
     if (window.location.pathname === "/") {
-      $.when(
-        $.get("data/surveys.csv", data => {
-          surveys = csv.toObjects(data);
+      Papa.parse("/data/surveys.csv", {
+        download: true,
+        header: true,
+        complete: (results) => {
+          surveys = results.data;
           console.log("Surveys: ", surveys);
-        }), 
-        $.get("data/questionnaires.csv", data => {
-          questionnaires = csv.toObjects(data);
+          showSurveys();
+        }
+      });
+      Papa.parse("/data/questionnaires.csv", {
+        download: true,
+        header: true,
+        complete: (results) => {
+          questionnaires = results.data;
           console.log("Questionnaires: ", questionnaires);
-        })
-      ).done(showSurveys);
+          showSurveys();
+        }
+      });
     }
     
     if (window.location.pathname.includes("responses.html")) {
@@ -51,8 +62,6 @@ $(
     }
     
     function showSurveys() {
-      const container = document.getElementById('root');
-      const root = ReactDOM.createRoot(container);
       root.render(
         <div>
           <h2>World War II Soldier Surveys</h2>
@@ -103,8 +112,6 @@ $(
       console.log("Images: ", filteredImages);
       
       if (filteredResponses.length > 0) {
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
         root.render(
           <div>
             <h2>World War II Soldier Survey Responses</h2>
@@ -113,8 +120,6 @@ $(
           </div>
         );
       } else {
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
         root.render(
           <div>
             <h2>Sorry, there are currently no responses to view for: </h2>

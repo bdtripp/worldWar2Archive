@@ -151,9 +151,6 @@ html body footer h2 {
         MIN-WIDTH 1000PX
 ***********************/
 @media screen and (min-width: 1000px) {
-  html body div#root div h2 {
-    font-size: ;
-  }
   html body footer h2 {
     margin: 40px 0 10px 0;
   }
