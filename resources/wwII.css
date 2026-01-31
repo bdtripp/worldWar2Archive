@@ -121,7 +121,6 @@ html body footer h2 {
   }
   html body div#root div div#image_carousel div#image_container img {
     border-radius: 5px;
-    width: auto;
   }
   html body div#root div div#image_carousel img.arrow {
     width: auto;
