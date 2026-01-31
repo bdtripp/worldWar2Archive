@@ -38,15 +38,13 @@ if (window.location.pathname.includes("responses.html")) {
     parseFile("data/questionnaires.csv"),
     parseFile("data/responses.csv"),
     parseFile("data/questions.csv"),
-    parseFile("data/answers.csv"),
-  ]).then(([surveys, questionnaires, responses, questions, answers]) => {
+    // parseFile("data/answers.csv") see comment below on var filteredAnswers
+  ]).then(([surveys, questionnaires, responses, questions/*, answers*/]) => { // see comment below
     var params = new URLSearchParams(location.search);
     var questionnaireId = params.get('questionnaireId');
 
     var filteredQuestions = questions.filter(question => {
-      if (question.QUESTIONS_parent_id == questionnaireId) {
-        return true;
-      }
+      return question.QUESTIONS_parent_id == questionnaireId;
     });
 
     var filteredQuestionsIds = filteredQuestions.map(question => question.QUESTIONS_identifier);
@@ -57,21 +55,20 @@ if (window.location.pathname.includes("responses.html")) {
 
     var filteredImages = Array.from(new Set(filteredResponses.map(response => response.RESPONSES_image)));
 
-    var filteredAnswers = answers.filter(answer => {
-      return (filteredQuestionsIds.indexOf(answer.ANSWER_question_id) > -1);
-    }); // not deleted this for now because may use it in the future. Also this variable is included in commented out section that logs it to the console
-
     var filteredQuestionnaire = questionnaires.filter(questionnaire => {
-      if (questionnaire.QUESTIONNAIRES_identifier == questionnaireId) {
-        return true;
-      }
+      return questionnaire.QUESTIONNAIRES_identifier == questionnaireId;
     })[0];
 
     var filteredSurvey = surveys.filter(survey => {
-      if (survey.SURVEYS_identifier == filteredQuestionnaire.QUESTIONNAIRES_survey_identifier) {
-        return true;
-      }
+      return survey.SURVEYS_identifier == filteredQuestionnaire.QUESTIONNAIRES_survey_identifier;
     })[0];
+
+    // not deleting this for now because may use it in the future. 
+    // Also this variable is included in commented out section that logs it to the console
+
+    // var filteredAnswers = answers.filter(answer => {
+    //   return (filteredQuestionsIds.indexOf(answer.ANSWER_question_id) > -1);
+    // }); 
 
     // console.log("Filtered Survey: ", filteredSurvey);
     // console.log("Filtered Questionnaire: ", filteredQuestionnaire);
