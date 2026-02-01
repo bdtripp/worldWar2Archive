@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Arrow from './Arrow.jsx';
 
 export default class ImageCarousel extends React.Component {
