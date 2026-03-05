@@ -1,3 +1,20 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from "react-router-dom";
+import App from './App.jsx'
+import './assets/css/wwii.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+)
+
+
+/////////////////////////////////////////////////////
+
 import ReactDOM from 'react-dom/client';
 import SurveyList from './SurveyList.jsx';
 import ImageCarousel from './ImageCarousel.jsx';
@@ -98,3 +115,20 @@ if (window.location.pathname.includes("responses.html")) {
   });
 }
 
+
+if (filteredResponses.length > 0) {
+    return (
+        <div>
+            <h2>World War II Soldier Survey Responses</h2>
+            <h3>{filteredSurvey.SURVEYS_topics} ({filteredQuestionnaire.QUESTIONNAIRES_name})</h3>
+            <ImageCarousel imgNames = {filteredImages} />
+        </div>
+    );
+} else {
+    return (
+        <div>
+            <h2>Sorry, there are currently no responses to view for: </h2>
+            <h3>{filteredSurvey.SURVEYS_topics} {filteredQuestionnaire.QUESTIONNAIRES_name}</h3>
+        </div>
+    );
+}
