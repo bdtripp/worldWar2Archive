@@ -108,7 +108,7 @@ export default class ImageCarousel extends React.Component {
         <div id="image_carousel">
           <div id="image_container">
             <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
+            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
             <Arrow style={this.state.arrowStyle} direction="left" clickHandler={this.prevImage}/>
             <Arrow style={this.state.arrowStyle} direction="right" clickHandler={this.nextImage}/>
           </div>
@@ -119,7 +119,7 @@ export default class ImageCarousel extends React.Component {
         <div id="image_carousel">
           <div id="image_container">
             <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
+            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
           </div>
         </div>                             
       ); 

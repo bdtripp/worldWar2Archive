@@ -8,7 +8,7 @@ export default class Arrow extends React.Component {
     var style = this.props.style;
     
     return (
-      <img id={direction + "_arrow"} className= "arrow" src={"images/" + direction + "_arrow" + ".png"} onClick={clickHandler} style={style}></img>
+      <img id={direction + "_arrow"} className= "arrow" src={"/images/" + direction + "_arrow" + ".png"} onClick={clickHandler} style={style}></img>
     )
   }
 }
