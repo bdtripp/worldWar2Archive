@@ -6,7 +6,7 @@ export default class QuestionnaireImage extends React.Component {
     var image = this.props.image;
     
     return (
-      <img src={"images/" + image}></img>
+      <img src={"/images/" + image}></img>
     )
   }
 }
