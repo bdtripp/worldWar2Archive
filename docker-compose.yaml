@@ -1,5 +1,5 @@
 services:
-  chord-and-scale-finder:
+  wwii-soldier-surveys:
     image: bdtrippdev/wwii-soldier-surveys:${TAG}
     restart: always
     labels:
