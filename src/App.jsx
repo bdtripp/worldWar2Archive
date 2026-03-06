@@ -19,7 +19,7 @@ export default function App() {
         .then(([surveys, questionnaires]) => {    
             setSurveys(surveys);
             setQuestionnaires(questionnaires);
-            setLoading(false);
+                setLoading(false);
         })
         .catch((err) => {
             setLoading(false);
