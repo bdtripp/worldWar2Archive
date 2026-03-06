@@ -25,6 +25,7 @@ export default class Home extends React.Component {
             this.setState({ error: err.message, loading: false });
         });
     }
+    
     render() {
         const { surveys, questionnaires, loading, error } = this.state;
 

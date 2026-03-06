@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 
-/////////////////////////////////////////////////////
+/////////////// Delete everything below this ///////////////////////
 
 import ReactDOM from 'react-dom/client';
 import SurveyList from './SurveyList.jsx';
@@ -115,6 +115,8 @@ if (window.location.pathname.includes("responses.html")) {
   });
 }
 
+
+////////////////////////////////////////
 
 if (filteredResponses.length > 0) {
     return (
