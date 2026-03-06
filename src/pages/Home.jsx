@@ -1,62 +1,42 @@
-import React from 'react';
+import { useState } from "react";
+import { useEffect } from "react";
 import { parseFile } from '../utils/csvParser';
 import SurveyList from '../components/SurveyList';
 
-export default class Home extends React.Component {
-     constructor(props) {
-        super(props);
-        this.state = {
-            surveys: [],
-            questionnaires: [],
-            loading: true,
-            error: null
-        };
-    }
+export default function Home() {
+    const [surveys, setSurveys] = useState([]);
+    const [questionnaires, setQuestionnaires] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         Promise.all([
             parseFile("/data/surveys.csv"),
             parseFile("/data/questionnaires.csv")
         ])
         .then(([surveys, questionnaires]) => {    
-            this.setState({ surveys, questionnaires, loading: false });
+            setSurveys(surveys);
+            setQuestionnaires(questionnaires);
+            setLoading(false);
         })
         .catch((err) => {
-            this.setState({ error: err.message, loading: false });
+            setLoading(false);
+            setError(err.message);
         });
+    }, []);
+
+    if (error) {
+        return <h1>Error loading data: {error}</h1>;
     }
-    
-    render() {
-        const { surveys, questionnaires, loading, error } = this.state;
 
-        if (error) {
-            return <h1>Error loading data: {error}</h1>;
-        }
-
-        if (loading) {
-            return <h2>Loading World War II Soldier Surveys...</h2>;
-        }
-
-        return (
-            <div>
-                <h2>World War II Soldier Surveys</h2>
-                <SurveyList surveys={surveys} questionnaires={questionnaires} />
-            </div>
-        );
+    if (loading) {
+        return <h2>Loading World War II Soldier Surveys...</h2>;
     }
-}
 
-
-Promise.all([
-    parseFile("/data/surveys.csv"),
-    parseFile("/data/questionnaires.csv")
-]).then(([surveys, questionnaires]) => {    
     return (
-    <div>
-        <h2>World War II Soldier Surveys</h2>
-        <SurveyList surveys={surveys} questionnaires={questionnaires} />
-    </div>
+        <div>
+            <h2>World War II Soldier Surveys</h2>
+            <SurveyList surveys={surveys} questionnaires={questionnaires} />
+        </div>
     );
-}).catch((err) => {
-    return (<h1>Error loading data: {err.message}</h1>);
-});
+}

@@ -1,10 +1,8 @@
-import React from 'react';
-import { withRouter } from '../utils/withRouter';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect } from "react";
 
-class Responses extends React.Component {
+export default function Responses() {
 
-    componentDidMount() {
+    useEffect(() => {
         Promise.all([
             parseFile("data/surveys.csv"),
             parseFile("data/questionnaires.csv"),
@@ -70,18 +68,5 @@ class Responses extends React.Component {
         .catch((err) => {
             root.render(<h1>Error loading data: {err.message}</h1>);
         });
-    }
-    
-    render() {
-        // Instead of this.props.questionnaireId
-        const query = new URLSearchParams(this.props.router.location.search);
-        const id = query.get("questionnaireId");
-
-        // And for your CSV data:
-        const { csvData } = this.props.router.location.state || {};
-
-        return <div>ID: {id}</div>;
-    }
+    }, []);
 }
-
-export default withRouter(Responses);
