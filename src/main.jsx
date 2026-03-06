@@ -118,19 +118,4 @@ if (window.location.pathname.includes("responses.html")) {
 
 ////////////////////////////////////////
 
-if (filteredResponses.length > 0) {
-    return (
-        <div>
-            <h2>World War II Soldier Survey Responses</h2>
-            <h3>{filteredSurvey.SURVEYS_topics} ({filteredQuestionnaire.QUESTIONNAIRES_name})</h3>
-            <ImageCarousel imgNames = {filteredImages} />
-        </div>
-    );
-} else {
-    return (
-        <div>
-            <h2>Sorry, there are currently no responses to view for: </h2>
-            <h3>{filteredSurvey.SURVEYS_topics} {filteredQuestionnaire.QUESTIONNAIRES_name}</h3>
-        </div>
-    );
-}
+
