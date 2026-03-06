@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 
 ww2_american_soldier_data/
-src/App.jsx
 src/App.css
