@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 export default class Questionnaire extends React.Component {
   render() {
@@ -6,7 +7,9 @@ export default class Questionnaire extends React.Component {
     
     return (
       <div className="questionnaire">
-        <a href={"responses.html?questionnaireId=" + questionnaire.QUESTIONNAIRES_identifier}>{questionnaire.QUESTIONNAIRES_name ? questionnaire.QUESTIONNAIRES_name : "No Name"}</a>
+        <Link to={`/responses?questionnaireId=${questionnaire.QUESTIONNAIRES_identifier}`}>
+          {questionnaire.QUESTIONNAIRES_name || "No Name"}
+        </Link>
       </div>
     )
   }
