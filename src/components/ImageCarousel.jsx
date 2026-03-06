@@ -1,87 +1,60 @@
-import React from 'react';
+import { useState } from "react";
+import { useEffect } from "react";
 import Arrow from './Arrow.jsx';
 
-export default class ImageCarousel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentImageIndex: 0,
-      imageStyle: {
-        maxHeight: "none",
-        display: "none"
-      },
-      arrowStyle: {
-        opacity: 0
-      },
-      countDisplayStyle: {
-        display: "none"
-      },
-      showingArrows: true,
-      inMobile: false,
-    };
-    
-    this.prevImage = this.prevImage.bind(this);
-    this.nextImage = this.nextImage.bind(this);
-    this.resizeImage = this.resizeImage.bind(this);
-    this.updateViewSize = this.updateViewSize.bind(this);
-    this.toggleArrows = this.toggleArrows.bind(this);
-    
-    window.addEventListener("resize", function() {
-      this.updateViewSize();
-      this.resizeImage();
-    }.bind(this));
-  }
+export default function ImageCarousel({ imgNames }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageStyle, setImageStyle] = useState({
+    maxHeight: "none",
+    display: "none"
+  });
+  const [arrowStyle, setArrowStyle] = useState({opacity: 0});
+  const [countDisplayStyle, setCountDisplayStyle] = useState({display: "none"});
+  const [showingArrows, setShowingArrows] = useState(true);
+  const [inMobile, setinMobile] = useState(false);
 
-  componentDidMount() {
-      this.updateViewSize();
-      this.resizeImage();
-      this.setState({
-        arrowStyle: {
-          opacity: .7
-        },
-        countDisplayStyle: {
-          display: "block" 
-        },
-        imageStyle: {
-          maxHeight: this.state.inMobile ? "none" : (window.visualViewport.height + "px"),
-          display: "block"
-        }
-      })
+  window.addEventListener("resize", () => {
+    updateViewSize();
+    resizeImage();
+  });
+
+  useEffect(() => {
+    updateViewSize();
+    resizeImage();
+    setArrowStyle({opacity: .7});
+    setCountDisplayStyle({display: "block"});
+    setImageStyle({
+      maxHeight: inMobile ? "none" : (window.visualViewport.height + "px"),
+      display: "block"
+    });
+  }, []);
+  
+  const prevImage = () => {
+    const lastIndex = imgNames.length - 1;
+    const loopAround = currentImageIndex === 0;
+
+    setCurrentImageIndex(loopAround ? lastIndex : currentImageIndex - 1);
   }
   
-  prevImage() {
-    var lastIndex = this.props.imgNames.length - 1;
-    var loopAround = this.state.currentImageIndex === 0;
-    this.setState({
-      currentImageIndex: loopAround ? lastIndex : (this.state.currentImageIndex - 1)
-    })
+  const nextImage = () => {
+    const lastIndex = imgNames.length - 1;
+    const loopAround = currentImageIndex === lastIndex;
+    setCurrentImageIndex(loopAround ? 0 : currentImageIndex + 1);
   }
   
-  nextImage() {
-    var lastIndex = this.props.imgNames.length - 1;
-    var loopAround = this.state.currentImageIndex === lastIndex;
-    this.setState({
-      currentImageIndex: loopAround ? 0 : (this.state.currentImageIndex + 1)
-    })
+  const resizeImage = () => {
+    setImageStyle({
+      maxHeight: inMobile ? "none" : window.visualViewport.height + "px",
+      display: "block"
+    });
   }
   
-  resizeImage() {
-    this.setState({
-      imageStyle: {
-        maxHeight: this.state.inMobile ? "none" : (window.visualViewport.height + "px"),
-        display: "block"
-      },
-    })
-  }
-  
-  toggleArrows() {
-    if (this.state.inMobile) {
-      if (this.state.showingArrows) {
-        this.setState({
-          showingArrows: false,
-          arrowStyle: {
-            opacity: 0
-          }
+  const toggleArrows = () => {
+    if (inMobile) {
+      if (showingArrows) {
+        setShowingArrows(false);
+        setArrowStyle({
+          opacity: 0
         });
       } else {
         this.setState({
@@ -94,7 +67,7 @@ export default class ImageCarousel extends React.Component {
     }
   }
   
-  updateViewSize() {
+  const updateViewSize = () => {
     this.setState({
       inMobile: window.innerWidth < 700
     })
