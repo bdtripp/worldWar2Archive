@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { parseFile } from '../utils/csvParser';
+import ImageCarousel from '../components/ImageCarousel';
 
 export default function Responses({surveys, questionnaires, loading, error}) {
-    const [responses, setResponses] = useState([]);
-    const [questions, setQuestions] = useState([]);
     const [localLoading, setLocalLoading] = useState(true);
     const [localError, setLocalError] = useState(null);
     const [filteredResponses, setFilteredResponses] = useState([]);
@@ -19,10 +18,6 @@ export default function Responses({surveys, questionnaires, loading, error}) {
             // parseFile("data/answers.csv") see comment below on var filteredAnswers
         ])
         .then(([responses, questions/*, answers*/]) => { // see comment below
-            setResponses(responses);
-            setQuestions(questions);
-            setLocalLoading(false);
-
             const params = new URLSearchParams(location.search);
             const questionnaireId = params.get('questionnaireId');
             const filteredQuestions = questions.filter(question => {
@@ -44,6 +39,7 @@ export default function Responses({surveys, questionnaires, loading, error}) {
             setFilteredSurvey(filteredSurvey);
             setFilteredQuestionnaire(filteredQuestionnaire);
             setFilteredImages(filteredImages);
+            setLocalLoading(false);
 
             // not deleting this for now because may use it in the future. 
             // Also this variable is included in commented out section that logs it to the console
@@ -71,10 +67,14 @@ export default function Responses({surveys, questionnaires, loading, error}) {
         return <h1>Error loading data: {combinedError}</h1>;
     }
 
-    if (loading) {
+    if (loading || localLoading) {
         return <h2>Loading World War II Soldier Surveys...</h2>;
     }
-    
+
+    if (!filteredSurvey || !filteredQuestionnaire) {
+        return <h2>Loading World War II Soldier Surveys...</h2>;
+    }
+
     if (filteredResponses.length > 0) {
         return (
             <div>

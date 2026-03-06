@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 
-const parseFile = (url) => {
+export function parseFile(url) {
   return new Promise((resolve, reject) => {
     Papa.parse(url, {
       download: true,
