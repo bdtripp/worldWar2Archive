@@ -25,10 +25,11 @@ export default function ImageCarousel({ imgNames }) {
     const handler = () => {
       updateViewSize();
       resizeImage();
+      inMobile && setShowingArrows(true);
     };
     window.addEventListener("resize", handler);
     return () => window.removeEventListener("resize", handler);
-  }, [inMobile]);
+  }, [inMobile, showingArrows]);
   
   const prevImage = () => {
     const lastIndex = imgNames.length - 1;
@@ -54,14 +55,8 @@ export default function ImageCarousel({ imgNames }) {
     if (inMobile) {
       if (showingArrows) {
         setShowingArrows(false);
-        setArrowStyle({
-          opacity: 0
-        });
       } else {
         setShowingArrows(true);
-        setArrowStyle({
-          opacity: .7
-        });
       }
     }
   }

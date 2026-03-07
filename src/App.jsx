@@ -8,18 +8,24 @@ import Responses from "./pages/Responses";
 export default function App() {
     const [surveys, setSurveys] = useState([]);
     const [questionnaires, setQuestionnaires] = useState([]);
+    const [responses, setResponses] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         Promise.all([
             parseFile("/data/surveys.csv"),
-            parseFile("/data/questionnaires.csv")
+            parseFile("/data/questionnaires.csv"),
+            parseFile("data/responses.csv"),
+            parseFile("data/questions.csv")
         ])
-        .then(([surveys, questionnaires]) => {    
+        .then(([surveys, questionnaires, responses, questions]) => {    
             setSurveys(surveys);
             setQuestionnaires(questionnaires);
-                setLoading(false);
+            setResponses(responses);
+            setQuestions(questions);
+            setLoading(false);
         })
         .catch((err) => {
             setLoading(false);
@@ -40,6 +46,8 @@ export default function App() {
         <Responses 
             surveys={surveys} 
             questionnaires={questionnaires} 
+            responses={responses}
+            questions={questions}
             loading={loading} 
             error={error} 
         />
