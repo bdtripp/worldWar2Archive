@@ -8,26 +8,27 @@ export default function ImageCarousel({ imgNames }) {
     maxHeight: "none",
     display: "none"
   });
-  const [arrowStyle, setArrowStyle] = useState({opacity: 0});
   const [countDisplayStyle, setCountDisplayStyle] = useState({display: "none"});
   const [showingArrows, setShowingArrows] = useState(true);
-  const [inMobile, setinMobile] = useState(false);
+  const [inMobile, setInMobile] = useState(false);
 
-  window.addEventListener("resize", () => {
-    updateViewSize();
-    resizeImage();
-  });
+  const arrowStyle = { opacity: showingArrows ? .7 : 0 };
 
   useEffect(() => {
     updateViewSize();
     resizeImage();
-    setArrowStyle({opacity: .7});
     setCountDisplayStyle({display: "block"});
     setImageStyle({
       maxHeight: inMobile ? "none" : (window.visualViewport.height + "px"),
       display: "block"
     });
-  }, []);
+    const handler = () => {
+      updateViewSize();
+      resizeImage();
+    };
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, [inMobile]);
   
   const prevImage = () => {
     const lastIndex = imgNames.length - 1;
@@ -57,45 +58,38 @@ export default function ImageCarousel({ imgNames }) {
           opacity: 0
         });
       } else {
-        this.setState({
-          showingArrows: true,
-          arrowStyle: {
-            opacity: .7
-          }
+        setShowingArrows(true);
+        setArrowStyle({
+          opacity: .7
         });
       }
     }
   }
   
   const updateViewSize = () => {
-    this.setState({
-      inMobile: window.innerWidth < 700
-    })
+      setInMobile(window.innerWidth < 700);
   }
-  
-  render() {
-    var imgNames = this.props.imgNames;
-    
-    if (imgNames.length > 1) {
-      return (  
-        <div id="image_carousel">
-          <div id="image_container">
-            <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
-            <Arrow style={this.state.arrowStyle} direction="left" clickHandler={this.prevImage}/>
-            <Arrow style={this.state.arrowStyle} direction="right" clickHandler={this.nextImage}/>
-          </div>
-        </div>                             
-      ); 
-    } else {
-      return (  
-        <div id="image_carousel">
-          <div id="image_container">
-            <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
-          </div>
-        </div>                             
-      ); 
-    }
-  }
+
+  return ( 
+    <div id="image_carousel">
+      <div id="image_container">
+        <p 
+          id="count_display" 
+          style={countDisplayStyle}>{currentImageIndex + 1 + " of " + imgNames.length}
+        </p>
+        <img 
+          id="questionnaire_image" 
+          src={"/images/questionnaires/" + imgNames[currentImageIndex]} 
+          style={imageStyle} 
+          onClick={toggleArrows}
+        />
+        {imgNames.length > 1 && (
+          <>
+            <Arrow style={arrowStyle} direction="left" clickHandler={prevImage}/>
+            <Arrow style={arrowStyle} direction="right" clickHandler={nextImage}/>
+          </>
+        )}
+      </div>
+    </div>                            
+  ); 
 }
