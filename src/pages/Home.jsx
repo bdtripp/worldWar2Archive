@@ -1,6 +1,6 @@
 import SurveyList from '../components/SurveyList';
 
-export default function Home({surveys, questionnaires, loading, error}) {
+export default function Home({ surveys, questionnaires, loading, error} ) {
     if (error) {
         return <h1>Error loading data: {error}</h1>;
     }

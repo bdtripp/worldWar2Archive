@@ -1,128 +1,99 @@
-import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import Arrow from './Arrow.jsx';
 
-export default class ImageCarousel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentImageIndex: 0,
-      imageStyle: {
-        maxHeight: "none",
-        display: "none"
-      },
-      arrowStyle: {
-        opacity: 0
-      },
-      countDisplayStyle: {
-        display: "none"
-      },
-      showingArrows: true,
-      inMobile: false,
-    };
-    
-    this.prevImage = this.prevImage.bind(this);
-    this.nextImage = this.nextImage.bind(this);
-    this.resizeImage = this.resizeImage.bind(this);
-    this.updateViewSize = this.updateViewSize.bind(this);
-    this.toggleArrows = this.toggleArrows.bind(this);
-    
-    window.addEventListener("resize", function() {
-      this.updateViewSize();
-      this.resizeImage();
-    }.bind(this));
-  }
+export default function ImageCarousel({ imgNames }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageStyle, setImageStyle] = useState({
+    maxHeight: 'none',
+    display: 'none',
+  });
+  const [countDisplayStyle, setCountDisplayStyle] = useState({
+    display: 'none',
+  });
+  const [showingArrows, setShowingArrows] = useState(true);
+  const [inMobile, setInMobile] = useState(false);
 
-  componentDidMount() {
-      this.updateViewSize();
-      this.resizeImage();
-      this.setState({
-        arrowStyle: {
-          opacity: .7
-        },
-        countDisplayStyle: {
-          display: "block" 
-        },
-        imageStyle: {
-          maxHeight: this.state.inMobile ? "none" : (window.visualViewport.height + "px"),
-          display: "block"
-        }
-      })
-  }
-  
-  prevImage() {
-    var lastIndex = this.props.imgNames.length - 1;
-    var loopAround = this.state.currentImageIndex === 0;
-    this.setState({
-      currentImageIndex: loopAround ? lastIndex : (this.state.currentImageIndex - 1)
-    })
-  }
-  
-  nextImage() {
-    var lastIndex = this.props.imgNames.length - 1;
-    var loopAround = this.state.currentImageIndex === lastIndex;
-    this.setState({
-      currentImageIndex: loopAround ? 0 : (this.state.currentImageIndex + 1)
-    })
-  }
-  
-  resizeImage() {
-    this.setState({
-      imageStyle: {
-        maxHeight: this.state.inMobile ? "none" : (window.visualViewport.height + "px"),
-        display: "block"
-      },
-    })
-  }
-  
-  toggleArrows() {
-    if (this.state.inMobile) {
-      if (this.state.showingArrows) {
-        this.setState({
-          showingArrows: false,
-          arrowStyle: {
-            opacity: 0
-          }
-        });
+  const arrowStyle = { opacity: showingArrows ? 0.7 : 0 };
+
+  useEffect(() => {
+    updateViewSize();
+    resizeImage();
+    setCountDisplayStyle({ display: 'block' });
+    setImageStyle({
+      maxHeight: inMobile ? 'none' : window.visualViewport.height + 'px',
+      display: 'block',
+    });
+    const handler = () => {
+      updateViewSize();
+      resizeImage();
+      inMobile && setShowingArrows(true);
+    };
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, [inMobile, showingArrows]);
+
+  const prevImage = () => {
+    const lastIndex = imgNames.length - 1;
+    const loopAround = currentImageIndex === 0;
+
+    setCurrentImageIndex(loopAround ? lastIndex : currentImageIndex - 1);
+  };
+
+  const nextImage = () => {
+    const lastIndex = imgNames.length - 1;
+    const loopAround = currentImageIndex === lastIndex;
+    setCurrentImageIndex(loopAround ? 0 : currentImageIndex + 1);
+  };
+
+  const resizeImage = () => {
+    setImageStyle({
+      maxHeight: inMobile ? 'none' : window.visualViewport.height + 'px',
+      display: 'block',
+    });
+  };
+
+  const toggleArrows = () => {
+    if (inMobile) {
+      if (showingArrows) {
+        setShowingArrows(false);
       } else {
-        this.setState({
-          showingArrows: true,
-          arrowStyle: {
-            opacity: .7
-          }
-        });
+        setShowingArrows(true);
       }
     }
-  }
-  
-  updateViewSize() {
-    this.setState({
-      inMobile: window.innerWidth < 700
-    })
-  }
-  
-  render() {
-    var imgNames = this.props.imgNames;
-    
-    if (imgNames.length > 1) {
-      return (  
-        <div id="image_carousel">
-          <div id="image_container">
-            <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
-            <Arrow style={this.state.arrowStyle} direction="left" clickHandler={this.prevImage}/>
-            <Arrow style={this.state.arrowStyle} direction="right" clickHandler={this.nextImage}/>
-          </div>
-        </div>                             
-      ); 
-    } else {
-      return (  
-        <div id="image_carousel">
-          <div id="image_container">
-            <p id="count_display" style={this.state.countDisplayStyle}>{(this.state.currentImageIndex + 1) + " of " + imgNames.length}</p>
-            <img id="questionnaire_image" src={"/images/questionnaires/" + imgNames[this.state.currentImageIndex]} style={this.state.imageStyle} onClick={this.toggleArrows}/>
-          </div>
-        </div>                             
-      ); 
-    }
-  }
+  };
+
+  const updateViewSize = () => {
+    setInMobile(window.innerWidth < 700);
+  };
+
+  return (
+    <div id="image_carousel">
+      <div id="image_container">
+        <p id="count_display" style={countDisplayStyle}>
+          {currentImageIndex + 1 + ' of ' + imgNames.length}
+        </p>
+        <img
+          id="questionnaire_image"
+          src={'/images/questionnaires/' + imgNames[currentImageIndex]}
+          style={imageStyle}
+          onClick={toggleArrows}
+        />
+        {imgNames.length > 1 && (
+          <>
+            <Arrow
+              style={arrowStyle}
+              direction="left"
+              clickHandler={prevImage}
+            />
+            <Arrow
+              style={arrowStyle}
+              direction="right"
+              clickHandler={nextImage}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
