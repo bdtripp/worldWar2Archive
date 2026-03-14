@@ -10,11 +10,11 @@ jobs:
     if: github.ref == 'refs/heads/dev'
     uses: bdtripp-dev/infra-proxy-stack/.github/workflows/reusable-deploy.yaml@dev
     with:
-      deploy-type: 'docker'
+      deploy_type: 'docker'
     secrets: inherit
   deploy-for-production:
     if: github.ref == 'refs/heads/master'
     uses: bdtripp-dev/infra-proxy-stack/.github/workflows/reusable-deploy.yaml@master
     with:
-      deploy-type: 'docker'
+      deploy_type: 'docker'
     secrets: inherit
