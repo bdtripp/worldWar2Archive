@@ -25,3 +25,4 @@ dist-ssr
 
 ww2_american_soldier_data/
 src/App.css
+.env
