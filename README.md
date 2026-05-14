@@ -20,17 +20,26 @@ The result is a focused, technically grounded project that combines modern front
 
 ---
 
-## Data Model Diagram
+## How It Works
+
+The application loads four CSV datasets (surveys, questionnaires, questions, and responses) on startup and transforms them into a relational structure entirely in the browser. Papa Parse is used to parse each file, after which the data is linked by identifier:
+
+### Data Model Diagram
 
 <pre>
-Survey (SURVEYS_identifier)
-    1 → many
-Questionnaire (QUESTIONNAIRES_identifier)
-    1 → many
-Question (QUESTIONS_identifier)
-    1 → many
-Response (RESPONSES_identifier)
-    1 → 1
-Image (RESPONSES_image)
+Survey 
+    └── 1 → many ──> Questionnaire
+                        └── 1 → many ──> Question
+                                            └── 1 → many ──> Response
+                                                                └── 1 → 1 ──> Image
 </pre>
+
+All parsed data is stored in shared React state at the top level of the application. Once loaded, the app exposes two main routes:
+
+- **Home View (`/`)** — Displays all surveys and their associated questionnaires. Users select a questionnaire to explore its questions and handwritten responses.
+
+- **Responses View (`/responses`)** — Displays the typed questions and original handwritten responses for the questionnaire selected on the Home page. The selected questionnaire is determined using the `questionnaireId` query parameter in the URL (e.g., `/responses?questionnaireId=S002w`).
+
+When viewing a questionnaire, the application dynamically filters the linked questions and responses, resolves the correct scanned image for each response, and displays them through a responsive image carousel. All data loading, parsing, and rendering happens entirely client‑side with no backend required.
+
 
