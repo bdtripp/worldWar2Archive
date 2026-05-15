@@ -37,14 +37,6 @@ graph LR
     style E fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
-<pre>
-Survey 
-    └── 1 → many ──> Questionnaire
-                        └── 1 → many ──> Question
-                                            └── 1 → many ──> Response
-                                                                └── 1 → 1 ──> Image
-</pre>
-
 All parsed data is stored in shared React state at the top level of the application. Once loaded, the app exposes two main routes:
 
 - **Home View (`/`)** — Displays all surveys and their associated questionnaires. Users select a questionnaire to explore its questions and handwritten responses.
