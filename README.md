@@ -26,13 +26,16 @@ The application loads four CSV datasets (surveys, questionnaires, questions, and
 
 ### Data Model Diagram
 
-<pre>
-Survey 
-    └── 1 → many ──> Questionnaire
-                        └── 1 → many ──> Question
-                                            └── 1 → many ──> Response
-                                                                └── 1 → 1 ──> Image
-</pre>
+```mermaid
+graph LR
+    A[Survey] -->|1 : Many| B[Questionnaire]
+    B -->|1 : Many| C[Question]
+    C -->|1 : Many| D[Response]
+    D -->|1 : 1| E[Image]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+```
 
 All parsed data is stored in shared React state at the top level of the application. Once loaded, the app exposes two main routes:
 
@@ -42,4 +45,94 @@ All parsed data is stored in shared React state at the top level of the applicat
 
 When viewing a questionnaire, the application dynamically filters the linked questions and responses, resolves the correct scanned image for each response, and displays them through a responsive image carousel. All data loading, parsing, and rendering happens entirely client‑side with no backend required.
 
+---
 
+## Tech Stack
+
+### Frontend & Architecture
+
+- **React 19** — UI rendering and component architecture  
+- **React Router** — client-side routing for Home and Responses views  
+- **Papa Parse** — CSV parsing and transformation into relational data  
+- **JavaScript** — data modeling, filtering, and shared state management  
+- **Vite** — development server and build tool  
+- **CSS Grid** — responsive layout and custom image carousel  
+
+### DevOps & Deployment
+- **Nginx** — serving the production build inside Docker  
+- **Docker** — containerized deployment for local and VPS environments  
+- **CI/CD (GitHub Actions)** — automated build and deployment pipeline for the Dockerized app
+
+---
+
+## Visit the Site
+<a href="https://wwii-soldier-surveys.bdtripp.com/" target="_blank">wwii-soldier-surveys.bdtripp.com</a>
+
+---
+
+## Run the Project (For Developers)
+Follow these steps to run the project locally.
+
+### Prerequisites
+Make sure you have the following installed:
+
+- **Node.js** (version 18 or higher recommended)
+- **npm** (comes with Node)
+
+You can verify your versions using:
+
+```bash
+node -v
+npm -v
+```
+
+### Clone the Repository
+```bash
+git clone https://github.com/bdtripp-dev/wwii-soldier-surveys.git
+cd wwii-soldier-surveys
+```
+
+### Installation
+Install all project dependencies:
+
+```bash
+npm install
+```
+
+### Running the Development Server
+Start the React development server:
+
+```bash
+npm run dev
+```
+The application will be available at:
+
+http://localhost:5173
+
+### Dataset Requirements
+The browser fetches and parses four CSV datasets at runtime:
+
+- surveys.csv
+- questionnaires.csv
+- questions.csv
+- responses.csv
+
+These files must remain in the following directory:
+
+`/public/data/`
+
+No backend is required — all parsing and data linking happens client‑side.
+
+### Optional: Run with Docker
+If you prefer running the project in a container:
+
+```bash
+docker build -t wwii-surveys .
+docker run -p 3000:80 wwii-surveys
+```
+
+> The `-p 3000:80` flag maps your machine’s port 3000 to port 80 inside the container, where Nginx serves the production build.
+
+Open your browser and go to:
+
+http://localhost:3000

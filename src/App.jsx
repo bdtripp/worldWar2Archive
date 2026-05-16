@@ -8,8 +8,8 @@ import Responses from './pages/Responses';
 export default function App() {
   const [surveys, setSurveys] = useState([]);
   const [questionnaires, setQuestionnaires] = useState([]);
-  const [responses, setResponses] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,14 +17,14 @@ export default function App() {
     Promise.all([
       parseFile('/data/surveys.csv'),
       parseFile('/data/questionnaires.csv'),
-      parseFile('data/responses.csv'),
       parseFile('data/questions.csv'),
+      parseFile('data/responses.csv'),
     ])
       .then(([surveys, questionnaires, responses, questions]) => {
         setSurveys(surveys);
         setQuestionnaires(questionnaires);
-        setResponses(responses);
         setQuestions(questions);
+        setResponses(responses);
         setLoading(false);
       })
       .catch((err) => {
@@ -46,8 +46,8 @@ export default function App() {
     <Responses
       surveys={surveys}
       questionnaires={questionnaires}
-      responses={responses}
       questions={questions}
+      responses={responses}
       loading={loading}
       error={error}
     />
