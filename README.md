@@ -47,8 +47,26 @@ When viewing a questionnaire, the application dynamically filters the linked que
 
 ---
 
+## Tech Stack
+
+### Frontend & Architecture
+
+- **React 19** — UI rendering and component architecture  
+- **React Router** — client-side routing for Home and Responses views  
+- **Papa Parse** — CSV parsing and transformation into relational data  
+- **JavaScript** — data modeling, filtering, and shared state management  
+- **Vite** — development server and build tool  
+- **CSS Grid** — responsive layout and custom image carousel  
+
+### DevOps & Deployment
+- **Nginx** — serving the production build inside Docker  
+- **Docker** — containerized deployment for local and VPS environments  
+- **CI/CD (GitHub Actions)** — automated build and deployment pipeline for the Dockerized app
+
+---
+
 ## Visit the Site
-https://wwii-soldier-surveys.bdtripp.com/
+<a href="https://wwii-soldier-surveys.bdtripp.com/" target="_blank">wwii-soldier-surveys.bdtripp.com</a>
 
 ---
 
