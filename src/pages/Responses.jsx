@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { parseFile } from '../utils/csvParser';
 import ImageCarousel from '../components/ImageCarousel';
 
-export default function Responses({surveys, questionnaires, responses, questions, loading, error}) {
+export default function Responses({surveys, questionnaires, questions, responses, loading, error}) {
   const [filteredResponses, setFilteredResponses] = useState([]);
   const [filteredSurvey, setFilteredSurvey] = useState(null);
   const [filteredQuestionnaire, setFilteredQuestionnaire] = useState(null);

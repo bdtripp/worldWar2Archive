@@ -1,4 +1,7 @@
 services:
   wwii-soldier-surveys:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - '8082:80'
