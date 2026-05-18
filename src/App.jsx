@@ -20,7 +20,7 @@ export default function App() {
       parseFile('data/questions.csv'),
       parseFile('data/responses.csv'),
     ])
-      .then(([surveys, questionnaires, responses, questions]) => {
+      .then(([surveys, questionnaires, questions, responses]) => {
         setSurveys(surveys);
         setQuestionnaires(questionnaires);
         setQuestions(questions);
