@@ -136,3 +136,11 @@ docker run -p 3000:80 wwii-surveys
 Open your browser and go to:
 
 http://localhost:3000
+
+---
+
+### Home View
+![Survey Selection Page](./screenshots/home-view.png)
+
+### Responses View
+![WWII Survey Page](./screenshots/responses-view.png)
