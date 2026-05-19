@@ -3,6 +3,15 @@ A data‑driven React project that loads, parses, and displays historical WWII s
 
 ---
 
+## Demo & Live Site
+Click the preview below or visit [wwii-soldier-surveys.bdtripp.com](https://wwii-soldier-surveys.bdtripp.com/) to explore the live site.
+
+<a href="https://wwii-soldier-surveys.bdtripp.com/" target="_blank">
+  <img src="docs/images/demo.gif" width="750" alt="WWII Soldier Survey Demo">
+</a>
+
+---
+
 ## Why This Project Matters
 
 This project takes a collection of digitized handwritten WWII soldier surveys from the National Archives and presents them through a clean, data‑driven interface. These documents capture the voices of individual soldiers in their own handwriting, offering a rare look into daily life, morale, and personal experiences during the war. By parsing and integrating this data into a modern web application, the project makes these historical records accessible while demonstrating practical skills in handling real‑world datasets.
@@ -62,11 +71,6 @@ When viewing a questionnaire, the application dynamically filters the linked que
 - **Nginx** — serving the production build inside Docker  
 - **Docker** — containerized deployment for local and VPS environments  
 - **CI/CD (GitHub Actions)** — automated build and deployment pipeline for the Dockerized app
-
----
-
-## Visit the Site
-<a href="https://wwii-soldier-surveys.bdtripp.com/" target="_blank">wwii-soldier-surveys.bdtripp.com</a>
 
 ---
 
@@ -139,8 +143,10 @@ http://localhost:3000
 
 ---
 
+## Screenshots
+
 ### Home View
-![Survey Selection Page](./screenshots/home-view.png)
+<img src="docs/images/screenshots/home-view.png" width="750" alt="WWII Soldier Home View">
 
 ### Responses View
-![WWII Survey Page](./screenshots/responses-view.png)
+<img src="docs/images/screenshots/responses-view.png" width="750" alt="WWII Soldier Responses View">
